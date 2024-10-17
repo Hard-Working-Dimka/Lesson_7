@@ -3,10 +3,6 @@ import os
 from dotenv import load_dotenv
 from pytimeparse import parse
 
-load_dotenv()
-
-TG_TOKEN = os.getenv('TELEGRAM_TOKEN')
-
 
 def render_progressbar(total, iteration, prefix='', suffix='', length=30, fill='█', zfill='░'):
     iteration = min(total, iteration)
@@ -34,7 +30,13 @@ def start(user_id, time_from_user):
     bot.create_timer(parse(time_from_user), timer_run_out, user_id=user_id)
 
 
-if __name__ == '__main__':
-    bot = ptbot.Bot(TG_TOKEN)
+def main():
+    load_dotenv()
+    global bot
+    bot = ptbot.Bot(os.getenv('TELEGRAM_TOKEN'))
     bot.reply_on_message(start)
     bot.run_bot()
+
+
+if __name__ == '__main__':
+    main()
